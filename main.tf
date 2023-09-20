@@ -23,4 +23,25 @@ tags = {
 }
 }
 
+resource "aws_internet_gateway" "myapp_igw" {
+  vpc_id = aws_vpc.myapp_vpc.id
+  tags = {
+    Name = " ${var.env_prefix}-igw"
+  }
+}
+
+resource "aws_route_table" "myapp_route_table" {
+  vpc_id = aws_vpc.myapp_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.myapp_igw.id
+  }
+    tags = {
+      Name = "${var.env_prefix}-rtb"
+    }
+
+  }
+  
+
+
 
