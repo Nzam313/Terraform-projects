@@ -42,6 +42,9 @@ resource "aws_route_table" "myapp_route_table" {
 
   }
   
-
+resource "aws_route_table_association" "rtb_assossiation" {
+  subnet_id = aws_subnet.myapp_subnet.id
+  route_table_id = aws_route_table.myapp_route_table.id
+}
 
 
