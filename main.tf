@@ -30,21 +30,18 @@ resource "aws_internet_gateway" "myapp_igw" {
   }
 }
 
-resource "aws_route_table" "myapp_route_table" {
-  vpc_id = aws_vpc.myapp_vpc.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.myapp_igw.id
-  }
-    tags = {
-      Name = "${var.env_prefix}-rtb"
-    }
+resource "aws_default_route_table" "main_rtb" {
+    default_route_table_id = aws_vpc.myapp_vpc.default_route_table_id
 
-  }
-  
-resource "aws_route_table_association" "rtb_assossiation" {
-  subnet_id = aws_subnet.myapp_subnet.id
-  route_table_id = aws_route_table.myapp_route_table.id
+    route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = aws_internet_gateway.myapp_igw.id
+    }
+    tags = {
+        Name = "${var.env_prefix}-main-rtb"
+    }
 }
+
+    
 
 
